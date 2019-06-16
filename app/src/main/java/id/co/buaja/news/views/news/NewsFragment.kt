@@ -11,6 +11,8 @@ import id.co.buaja.news.R
 import id.co.buaja.news.adapter.NewsAdapter
 import id.co.buaja.news.network.model.ArticlesItem
 import id.co.buaja.news.views.base.BaseFragment
+import id.co.buaja.news.views.detail.DetailActivity
+import org.jetbrains.anko.startActivity
 
 class NewsFragment : BaseFragment(), NewsView {
     private lateinit var newsPresenter: NewsPresenter
@@ -77,7 +79,7 @@ class NewsFragment : BaseFragment(), NewsView {
         newsPresenter.getCategory(category)
 
         newsAdapter = NewsAdapter(requireContext(), listNews) {
-
+            requireContext().startActivity<DetailActivity>("news" to it)
         }
         recyclerView.addItemDecoration(DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL))
         recyclerView.layoutManager = LinearLayoutManager(requireContext())

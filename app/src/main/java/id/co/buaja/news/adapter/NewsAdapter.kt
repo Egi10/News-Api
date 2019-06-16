@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import com.squareup.picasso.Picasso
 import id.co.buaja.news.R
 import id.co.buaja.news.network.model.ArticlesItem
+import id.co.buaja.news.untils.formatTanggal
 import kotlinx.android.synthetic.main.layout_list_news.view.*
 
 class NewsAdapter(private val context: Context, private val item: List<ArticlesItem>, private val listener: (ArticlesItem) -> Unit)
@@ -27,12 +28,20 @@ class NewsAdapter(private val context: Context, private val item: List<ArticlesI
         @SuppressLint("CheckResult")
         fun bindItem(articlesItem: ArticlesItem, listener: (ArticlesItem) -> Unit) {
             itemView.tvJudul.text = articlesItem.title
-            itemView.tvTanggal.text = articlesItem.publishedAt
-            Picasso.get()
-                .load(articlesItem.urlToImage)
-                .placeholder(R.drawable.noimage)
-                .error(R.drawable.noimage)
-                .into(itemView.image)
+            itemView.tvTanggal.text = articlesItem.publishedAt?.formatTanggal()
+            if (articlesItem.urlToImage.isNullOrEmpty()) {
+                Picasso.get()
+                    .load(R.drawable.noimage)
+                    .placeholder(R.drawable.noimage)
+                    .error(R.drawable.noimage)
+                    .into(itemView.image)
+            } else {
+                Picasso.get()
+                    .load(articlesItem.urlToImage)
+                    .placeholder(R.drawable.noimage)
+                    .error(R.drawable.noimage)
+                    .into(itemView.image)
+            }
 
 
             itemView.setOnClickListener {
